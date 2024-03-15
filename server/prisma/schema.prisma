@@ -1,0 +1,122 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  user
+  admin
+}
+
+enum Status {
+  pending
+  approved
+  rejected
+}
+
+model User {
+  id          String        @id @default(uuid())
+  email       String        @unique
+  name        String
+  password    String
+  role        Role          @default(user)
+  isActive    Boolean       @default(true)
+  image       String?
+  Company     Company[] // el usuario puede tener varias empresas, a la larga un usuario solo va poder crear mas de uan compañia si paga la suscripcion, si es un usuario normal solo podra tener una empresa
+  Application Application[]
+  Curriculum  Curriculum?
+  FavoriteJob FavoriteJob[]
+}
+
+model Company {
+  id                 String         @id @default(uuid())
+  nameCompany        String
+  descriptionCompany String?
+  emailCompany       String?
+  websiteCompany     String?
+  phoneCompany       String?
+  addressCompany     String?
+  user               User           @relation(fields: [userId], references: [id])
+  userId             String
+  CompanyImage       CompanyImage[]
+}
+
+model CompanyImage {
+  id        String  @id @default(uuid())
+  urL       String
+  Company   Company @relation(fields: [companyId], references: [id])
+  companyId String
+}
+
+model Area {
+  id        String   @id @default(uuid())
+  nameArea  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  job       Job[] // un area puede tener varios trabajos
+}
+
+model Job {
+  id             String        @id @default(uuid())
+  jobTitle       String
+  jobDescription String
+  jobModality    String
+  jobTags        String[] // esto ayudara a buscar trabajos por tags
+  jobMinSalary   Float?
+  jobMaxSalary   Float?
+  jobWorkLoad    String?
+  jobLevel       String?
+  jobLocation    String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  jobVacancies   Int?          @default(1)
+  areaId         String
+  Area           Area          @relation(fields: [areaId], references: [id])
+  Application    Application[]
+  FavoriteJob    FavoriteJob[]
+}
+
+model Application {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  userId    String
+  jobId     String
+  status    Status   @default(pending)
+  User      User     @relation(fields: [userId], references: [id])
+  Job       Job      @relation(fields: [jobId], references: [id])
+}
+
+model Curriculum {
+  id         String   @id @default(uuid())
+  name       String?
+  lastName   String?
+  email      String?
+  phone      String?
+  address    String?
+  city       String?
+  country    String?
+  education  String[]
+  experience String[]
+  skills     String[]
+  languages  String[]
+  User       User?    @relation(fields: [userId], references: [id])
+  userId     String   @unique
+}
+
+model FavoriteJob {
+  id     String @id @default(uuid())
+  userId String
+  jobId  String
+  User   User   @relation(fields: [userId], references: [id])
+  Job    Job    @relation(fields: [jobId], references: [id])
+}
