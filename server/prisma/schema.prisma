@@ -30,8 +30,11 @@ model User {
   name        String
   password    String
   role        Role          @default(user)
+  isPremium   Boolean       @default(false)
   isActive    Boolean       @default(true)
   image       String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
   Company     Company[] // el usuario puede tener varias empresas, a la larga un usuario solo va poder crear mas de uan compañia si paga la suscripcion, si es un usuario normal solo podra tener una empresa
   Application Application[]
   Curriculum  Curriculum?
@@ -41,11 +44,16 @@ model User {
 model Company {
   id                 String         @id @default(uuid())
   nameCompany        String
+  isPremium          Boolean        @default(false)
+  isActive           Boolean        @default(true)
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
   descriptionCompany String?
   emailCompany       String?
   websiteCompany     String?
   phoneCompany       String?
   addressCompany     String?
+  rating             Float?
   user               User           @relation(fields: [userId], references: [id])
   userId             String
   CompanyImage       CompanyImage[]

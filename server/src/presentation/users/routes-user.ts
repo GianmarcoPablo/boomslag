@@ -2,6 +2,7 @@ import { Router } from "express";
 import { UserController } from "./controller-user";
 import { UserRepositoryImpl } from "../../infrastructure/repositories/users/user.repository.impl";
 import { UserDatasourceImpl } from "../../infrastructure/datasources/users/user.datasource.impl";
+
 export class UserRoutes {
 
     static get routes(): Router {

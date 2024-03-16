@@ -6,15 +6,16 @@ export class CreateCompanyDto {
         public readonly emailCompany?: string,
         public readonly websiteCompany?: string,
         public readonly addressCompany?: string,
+        public readonly phoneCompany?: string,
     ) { }
 
 
     static create(props: { [key: string]: any }): [string?, CreateCompanyDto?] {
-        const { nameCompany, userId, descriptionCompany, emailCompany, websiteCompany, addressCompany } = props;
+        const { nameCompany, userId, descriptionCompany, emailCompany, websiteCompany, addressCompany, phoneCompany } = props;
 
         if (!nameCompany) return ['nameCompany is required', undefined];
         if (!userId) return ['userId is required', undefined];
 
-        return [undefined, new CreateCompanyDto(nameCompany, userId, descriptionCompany, emailCompany, websiteCompany, addressCompany)];
+        return [undefined, new CreateCompanyDto(nameCompany, userId, descriptionCompany, emailCompany, websiteCompany, addressCompany, phoneCompany)];
     }
 }
