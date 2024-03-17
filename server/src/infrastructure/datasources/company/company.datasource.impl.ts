@@ -133,4 +133,22 @@ export class CompanyDataSourceImpl implements CompanyDataSource {
             throw CustomError.internalServerError()
         }
     }
+
+    async getAllCompaniesByUser(user: any): Promise<CompanyEntity[]> {
+        console.log({ user })
+        try {
+            const { id } = user
+            const companies = await prisma.company.findMany({
+                where: {
+                    userId: id
+                }
+            })
+            return companies.map(company => CompanyEntity.fromObject(company))
+        } catch (error) {
+            if (error instanceof CustomError) {
+                throw error
+            }
+            throw CustomError.internalServerError()
+        }
+    }
 }

@@ -28,4 +28,8 @@ export class CompanyRepositoryImpl implements CompanyRepository {
     deleteCompany(user: any, id: string): Promise<string> {
         return this.companyDataSource.deleteCompany(user, id);
     }
+
+    getAllCompaniesByUser(user: any): Promise<CompanyEntity[]> {
+        return this.companyDataSource.getAllCompaniesByUser(user);
+    }
 }

@@ -8,6 +8,7 @@ import { GetCompanyByIdUseCase } from "../../domain/use-cases/get-company-by-id.
 import { UpdateCompanyDto } from "../../domain/dtos/company/update-company.dto"
 import { UpdateCompanyUseCase } from "../../domain/use-cases/update-company.usecase"
 import { DeleteCompanyUseCase } from "../../domain/use-cases/delete-company.usecase"
+import { GetCompaniesUserUseCase } from "../../domain/use-cases/get-companies-user"
 
 export class CompanyController {
 
@@ -103,7 +104,17 @@ export class CompanyController {
     }
 
     public getAllCompaniesByUser = async (req: Request, res: Response) => {
-
+        const { user } = req.body;
+        try {
+            const companies = await new GetCompaniesUserUseCase(this.companyRepository).execute(user);
+            console.log(companies)
+            return res.status(200).json(companies);
+        } catch (error) {
+            if (error instanceof CustomError) {
+                return res.status(error.statusCode).json({ error: error.message })
+            }
+            this.handleError(error, res);
+        }
     }
 
 }

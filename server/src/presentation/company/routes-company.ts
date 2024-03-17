@@ -21,7 +21,7 @@ export class CompanyRoutes {
 
         // obtener todas las empresas de un usuario y que no pueda obtener las empresas de otro usuario
 
-        router.get("/protected", [ExitsUserMiddleware.validateJWT], controller.getAllCompaniesByUser);
+        router.get("/by/user", [ExitsUserMiddleware.validateJWT], controller.getAllCompaniesByUser);
 
         return router;
     }
