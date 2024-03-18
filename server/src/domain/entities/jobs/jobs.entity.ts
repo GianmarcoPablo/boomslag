@@ -1,6 +1,6 @@
 export class JobEntity {
     constructor(
-        public readonly id: number,
+        public readonly id: string,
         public readonly jobTitle: string,
         public readonly jobDescription: string,
         public readonly jobModality: string,
@@ -32,6 +32,22 @@ export class JobEntity {
         if (!companyId) throw new Error('companyId is required');
 
 
-        return new JobEntity(id, jobTitle, jobDescription, jobModality, createdAt, updatedAt, areaId, companyId, jobTags, jobMinSalary, jobMaxSalary, jobWorkLoad, jobLevel, jobLocation, jobVacancies);
+        return new JobEntity(
+            id,
+            jobTitle,
+            jobDescription,
+            jobModality,
+            createdAt,
+            updatedAt,
+            areaId,
+            companyId,
+            jobTags,
+            jobMinSalary ?? null,
+            jobMaxSalary ?? null,
+            jobWorkLoad ?? null,
+            jobLevel ?? null,
+            jobLocation ?? null,
+            jobVacancies ?? null
+        );
     }
 }

@@ -1,3 +1,4 @@
+
 import { prisma } from "../../../database/postgresql-prisma";
 import { CompanyDataSource } from "../../../domain/datasources/company/company.datasource";
 import { CreateCompanyDto } from "../../../domain/dtos/company/create-company.dto";
@@ -79,6 +80,11 @@ export class CompanyDataSourceImpl implements CompanyDataSource {
     async updateCompany(user: any, id: string, updateCompanyDto: UpdateCompanyDto): Promise<CompanyEntity> {
         try {
             const { id: idUser } = user
+
+            const companyToUpdate = await prisma.company.findUnique({ where: { id } })
+
+            if (!companyToUpdate) throw CustomError.notFound('Company not found')
+
             const company = await prisma.company.update({
                 where: {
                     id,
@@ -87,8 +93,6 @@ export class CompanyDataSourceImpl implements CompanyDataSource {
                     ...updateCompanyDto
                 }
             })
-
-            if (!company) throw CustomError.notFound('Company not found')
 
             if (company.userId !== idUser) {
                 throw CustomError.forbidden('You do not have permission to update this company')

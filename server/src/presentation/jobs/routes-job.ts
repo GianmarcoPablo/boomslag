@@ -13,10 +13,10 @@ export class JobsRoutes {
         const jobRepository = new JobRepositoryImpl(jobdatasource);
         const jobController = new JobController(jobRepository);
 
-        routes.get("/");
-        routes.get("/:id");
+        routes.get("/", jobController.getAllJobs);
+        routes.get("/:id",);
         routes.post("/", [ExitsUserMiddleware.validateJWT], jobController.createJob);
-        routes.put("/:id");
+        routes.put("/:id", [ExitsUserMiddleware.validateJWT], jobController.updateJob);
         routes.delete("/:id");
 
         return routes;

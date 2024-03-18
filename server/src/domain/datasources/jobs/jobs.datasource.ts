@@ -5,6 +5,6 @@ export abstract class JobDatasource {
     abstract createJob(job: CreateJobDto): Promise<JobEntity>;
     abstract getAllJobs(): Promise<JobEntity[]>;
     abstract getJobById(id: string): Promise<JobEntity>;
-    abstract updateJob(user: any, id: string, job: JobUpdateDto): Promise<JobEntity>;
+    abstract updateJob(user: any, id: string, job: JobUpdateDto): any;
     abstract deleteJob(user: any, id: string): Promise<string>;
 }
