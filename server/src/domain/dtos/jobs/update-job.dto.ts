@@ -3,6 +3,8 @@ export class JobUpdateDto {
         public readonly jobTitle: string,
         public readonly jobDescription: string,
         public readonly jobModality: string,
+        public readonly companyId?: string,
+        public readonly areaId?: string,
         public readonly jobTags?: string[],
         public readonly jobMinSalary?: number,
         public readonly jobMaxSalary?: number,
@@ -13,12 +15,29 @@ export class JobUpdateDto {
     ) { }
 
     static create(props: { [key: string]: any }): [string?, JobUpdateDto?] {
-        const { jobTitle, jobDescription, jobModality, jobTags, jobMinSalary, jobMaxSalary, jobWorkLoad, jobLevel, jobLocation, jobVacancies } = props;
 
-        if (!jobTitle) return ['jobTitle is required', undefined];
-        if (!jobDescription) return ['jobDescription is required', undefined];
-        if (!jobModality) return ['jobModality is required', undefined];
 
-        return [undefined, new JobUpdateDto(jobTitle, jobDescription, jobModality, jobTags, jobMinSalary, jobMaxSalary, jobWorkLoad, jobLevel, jobLocation, jobVacancies)];
+        const { jobTitle, jobDescription, jobModality, companyId, areaId, jobTags, jobMinSalary, jobMaxSalary, jobWorkLoad, jobLevel, jobLocation, jobVacancies } = props
+
+        if (!jobTitle) return ['jobTitle is required']
+        if (!jobDescription) return ['jobDescription is required']
+        if (!jobModality) return ['jobModality is required']
+        if (!companyId) return ['companyId is required']
+        if (!areaId) return ['areaId is required']
+
+        return [undefined, new JobUpdateDto(
+            jobTitle,
+            jobDescription,
+            jobModality,
+            companyId,
+            areaId,
+            jobTags,
+            jobMinSalary,
+            jobMaxSalary,
+            jobWorkLoad,
+            jobLevel,
+            jobLocation,
+            jobVacancies
+        )]
     }
 }

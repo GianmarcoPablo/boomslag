@@ -2,7 +2,7 @@ import { JobEntity } from "../entities/jobs/jobs.entity"
 import { JobRepository } from "../repositories/jobs/jobs.repository";
 
 interface GetAllJobsUseCaseInterface {
-    execute(): Promise<JobEntity[]>
+    execute(number: number, limit: number): Promise<JobEntity[]>
 }
 
 export class GetAllJobsUseCase implements GetAllJobsUseCaseInterface {
@@ -10,7 +10,7 @@ export class GetAllJobsUseCase implements GetAllJobsUseCaseInterface {
         private readonly jobRepository: JobRepository
     ) { }
 
-    async execute(): Promise<JobEntity[]> {
-        return this.jobRepository.getAllJobs();
+    async execute(page: number, limit: number): Promise<JobEntity[]> {
+        return this.jobRepository.getAllJobs(page, limit)
     }
 }

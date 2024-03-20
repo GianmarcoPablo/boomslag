@@ -7,18 +7,22 @@ import { ExitsUserMiddleware } from "../middlewares/users/exits-user.middleware"
 export class JobsRoutes {
     static get routes(): Router {
 
-        const routes = Router();
+        const router = Router();
 
         const jobdatasource = new JobDatasourceImpl();
         const jobRepository = new JobRepositoryImpl(jobdatasource);
         const jobController = new JobController(jobRepository);
 
-        routes.get("/", jobController.getAllJobs);
-        routes.get("/:id",);
-        routes.post("/", [ExitsUserMiddleware.validateJWT], jobController.createJob);
-        routes.put("/:id", [ExitsUserMiddleware.validateJWT], jobController.updateJob);
-        routes.delete("/:id");
+        router.get("/", jobController.getAllJobs);
+        router.get("/:id", jobController.getJobById);
+        router.post("/", [ExitsUserMiddleware.validateJWT], jobController.createJob);
+        router.put("/:id", [ExitsUserMiddleware.validateJWT], jobController.updateJob);
+        router.delete("/:id", [ExitsUserMiddleware.validateJWT], jobController.deleteJob);
+        //TODO :router.get("/by/companies", [ExitsUserMiddleware.validateJWT], jobController.getAllJobsByCompany);
 
-        return routes;
+        router.post("/action/apply", [ExitsUserMiddleware.validateJWT], jobController.applyJob);
+
+        router.post("/action/favorite", [ExitsUserMiddleware.validateJWT], jobController.favoriteJob);
+        return router;
     }
 }
