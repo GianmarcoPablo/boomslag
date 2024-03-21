@@ -3,13 +3,14 @@
 export class UserLoginDto {
     constructor(
         public readonly email: string,
-        public readonly password: string
+        public readonly password: string,
+        public readonly csrfToken?: string
     ) { }
 
 
     static create(props: { [key: string]: any }): [string?, UserLoginDto?] {
 
-        const { email, password } = props;
+        const { email, password, csrfToken } = props;
 
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -18,6 +19,6 @@ export class UserLoginDto {
         if (!password) return ['password is required', undefined];
         if (password.length < 6) return ['password must be at least 6 characters', undefined];
 
-        return [undefined, new UserLoginDto(email, password)];
+        return [undefined, new UserLoginDto(email, password, csrfToken)];
     }
 }

@@ -1,20 +1,14 @@
 "use client"
-import Link from "next/link"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
+import Link from "next/link"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-
+import { UserFetchResponse } from "@/interfaces/user.interface"
 import { Button } from "@/components/ui/button"
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useState } from "react"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form"
+
 
 const formSchema = z.object({
     email: z.string().email({
@@ -24,6 +18,8 @@ const formSchema = z.object({
         message: "Password must be at least 8 characters long.",
     }),
 })
+
+
 
 export default function ProfileForm() {
 
@@ -48,8 +44,11 @@ export default function ProfileForm() {
                 },
                 body: JSON.stringify(values)
             })
-            const response = await data.json()
-            console.log(response)
+
+            const response: UserFetchResponse = await data.json()
+
+            window.location.replace("/")
+
         } catch (error) {
             console.log(error)
             setMessage("Error al crear la cuenta")

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { LoginUserUseCase, UserLoginDto, UserRegisterDto, UserRepository } from "../../domain";
 import { CustomError } from "../../domain/errors/custom.error";
-
+import { prisma } from "../../database/postgresql-prisma";
 export class UserController {
 
     constructor(
@@ -17,6 +17,7 @@ export class UserController {
     }
 
     public login = async (req: Request, res: Response) => {
+        console.log(req.body)
         const [error, loginUserDto] = UserLoginDto.create(req.body!);
         if (error) return res.status(400).json({ error });
         try {
@@ -32,6 +33,17 @@ export class UserController {
         if (error) return res.status(400).json({ error });
         try {
             const user = await this.userRepository.register(userRegisterDto!);
+            res.status(200).json(user);
+        } catch (error) {
+            this.handleError(error, res);
+        }
+    }
+
+    public findUser = async (req: Request, res: Response) => {
+        try {
+            const user = await prisma.user.findUnique({ where: { email: req.body.email } })
+            if (!user) return res.status(404).json({ error: "User not found" });
+            console.log({ userProbita: user })
             res.status(200).json(user);
         } catch (error) {
             this.handleError(error, res);

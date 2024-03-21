@@ -2,8 +2,12 @@ import Link from "next/link"
 import { titleFont } from "@/config/fonts"
 import { ModeToggle } from "@/components/ui/ModeToggle"
 import { Sidebar } from ".."
+import LogOut from "../logout/LogOut"
 
-export default function Navbar() {
+export default async function Navbar() {
+
+
+
     return (
         <>
             <nav className=" max-w-[1480px] mx-auto ">
@@ -24,9 +28,11 @@ export default function Navbar() {
                             <Sidebar />
                         </div>
                         <div >
-                            <Link href="/auth/login" className="hover:text-rose-600">
-                                Login
-                            </Link>
+                            {
+                                <Link className="hover:text-rose-500 " href="/auth/login">
+                                    Login
+                                </Link>
+                            }
                         </div>
                     </div>
                 </div>
