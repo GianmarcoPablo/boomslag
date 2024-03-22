@@ -2,6 +2,8 @@ import { DefaultSession, DefaultUser } from "next-auth";
 
 interface IUser extends DefaultUser {
     roles?: string[]
+    isPremium?: boolean
+    isActive?: boolean
 }
 
 

@@ -47,14 +47,16 @@ export const authOptions: NextAuthOptions = {
             const userDb = await dbUser.json()
             token.roles = userDb?.role ?? ["no-roles"];
             token.id = userDb?.id ?? "no-id"
-            console.log("token", token)
+            token.isPremium = userDb?.isPremium ?? false
+            token.isActive = userDb?.isActive ?? false
             return token
         },
         async session({ session, token }) {
-            console.log({ session, token })
             if (session.user) {
                 session.user.id = token.id;
                 session.user.roles = token.roles;
+                session.user.isPremium = token.isPremium;
+                session.user.isActive = token.isActive;
             }
             return session;
         }

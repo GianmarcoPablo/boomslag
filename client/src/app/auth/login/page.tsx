@@ -1,16 +1,14 @@
 "use server"
 import { AuthForm } from "@/components/my"
-import { cookies } from "next/headers"
 import { redirect } from "next/navigation";
-
-
+import { getSession } from "@/helpers/getSession";
 export default async function Loginpage() {
 
-    const cookieStore = cookies()
-    const coockieUser = cookieStore.get("user-info")?.value
-    const user = JSON.parse(coockieUser!)
+    const session = await getSession()
 
-    if (user.id) redirect("/")
+    if (session) {
+        redirect("/")
+    }
 
     return (
         <div className="flex justify-center ">

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { CarouselHero } from "@/components/my";
-import Sponsors from "@/components/my/sponsors/Sponsors";
+import Sponsors from "@/components/my/home/sponsors/Sponsors";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -22,11 +22,15 @@ export default function Home() {
 
 
         <div className="flex gap-4 mt-6">
-          <Button variant={"secondary"}>
-            Descubre más
+          <Button asChild variant={"secondary"}>
+            <Link href="/dashboard/profile">
+              Ver mi perfil
+            </Link>
           </Button>
-          <Button variant={"default"}>
-            Contáctanos
+          <Button asChild variant={"default"}>
+            <Link href="/jobs">
+              Buscar trabajo
+            </Link>
           </Button>
         </div>
       </section>

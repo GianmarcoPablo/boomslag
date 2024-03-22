@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/theme/theme-provider"
-
+import AuthProvider from "@/auth/provider/AuthProvider";
 import "./globals.css";
 import { Navbar } from "@/components/my";
 
@@ -18,20 +18,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.className}`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Navbar />
+    <AuthProvider>
+      <html lang="en">
+        <body className={`${inter.className}`}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Navbar />
 
-          {children}
-        </ThemeProvider>
+            {children}
+          </ThemeProvider>
 
-      </body>
-    </html>
+        </body>
+      </html>
+    </AuthProvider>
   );
 }

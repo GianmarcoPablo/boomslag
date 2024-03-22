@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { getSession } from "@/helpers/getSession"
 import {
     Sheet,
     SheetClose,
@@ -11,7 +12,9 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet"
 
-export default function Sidebar() {
+export default async function Sidebar() {
+
+    const session = await getSession()
     return (
         <Sheet>
             <SheetTrigger asChild>
@@ -27,20 +30,23 @@ export default function Sidebar() {
                     </SheetDescription>
                 </SheetHeader>
                 <div className="grid gap-4 py-4">
-                    <Link className="hover:underline text-lg" href="/dashboard">
-                        Dashboard
+                    {
+                        session && (
+                            <>
+                                <Link href="/dashboard">
+                                    Dashboard
+                                </Link>
+                                <Link href="/dashboard/profile">
+                                    Profile
+                                </Link>
+                            </>
+                        )
+                    }
+                    <Link href="/jobs">
+                        Trabajos
                     </Link>
-                    <Link className="hover:underline text-lg" href="/jobs">
-                        Jobs
-                    </Link>
-                    <Link className="hover:underline text-lg" href="/companies">
-                        Companies
-                    </Link>
-                    <Link className="hover:underline text-lg" href="/profile">
-                        Profile
-                    </Link>
-                    <Link className="hover:underline text-lg" href="/settings">
-                        Settings
+                    <Link href="/companies">
+                        Empresas
                     </Link>
                 </div>
                 <SheetFooter>
@@ -51,7 +57,7 @@ export default function Sidebar() {
                         <Button type="submit">Save changes</Button>
                     </SheetClose>
                 </SheetFooter>
-            </SheetContent>
-        </Sheet>
+            </SheetContent >
+        </Sheet >
     )
 }

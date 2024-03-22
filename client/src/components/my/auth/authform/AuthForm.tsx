@@ -8,6 +8,7 @@ import { UserFetchResponse } from "@/interfaces/user.interface"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form"
+import { signIn, useSession } from "next-auth/react"
 
 
 const formSchema = z.object({
@@ -37,18 +38,11 @@ export default function ProfileForm() {
     const handleSubmit = async (values: z.infer<typeof formSchema>) => {
         setLoading(true)
         try {
-            const data = await fetch("http://localhost:4000/api/v1/users/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(values)
+            const response = await signIn("credentials", {
+                email: values.email,
+                password: values.password
             })
-
-            const response: UserFetchResponse = await data.json()
-
-            window.location.replace("/")
-
+            
         } catch (error) {
             console.log(error)
             setMessage("Error al crear la cuenta")

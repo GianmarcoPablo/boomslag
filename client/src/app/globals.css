@@ -1,7 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
+
+
+
+
+
+
 
 @layer base {
   :root {
@@ -50,17 +56,26 @@
   }
 }
 
- 
+
+
 @layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 }
 
 ::selection {
-  color: white; /* Color del texto seleccionado */
-  background-color: rgb(199, 41, 68); /* Color de fondo del texto seleccionado */
+  color: white;
+  /* Color del texto seleccionado */
+  background-color: rgb(199, 41, 68);
+  /* Color de fondo del texto seleccionado */
+}
+
+.elemento {
+  background-color: hsl(var(--card));
+  color: hsl(var(--card-foreground));
 }

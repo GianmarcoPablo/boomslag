@@ -1,15 +1,16 @@
 import Link from "next/link"
 import { titleFont } from "@/config/fonts"
 import { ModeToggle } from "@/components/ui/ModeToggle"
-import { Sidebar } from ".."
-import LogOut from "../logout/LogOut"
+import { Sidebar } from "../.."
+import LogOut from "../../auth/logout/LogOut"
+import { getSession } from "@/helpers/getSession"
 
 export default async function Navbar() {
 
-
+    const session = await getSession()
 
     return (
-        <>
+        <div >
             <nav className=" max-w-[1480px] mx-auto ">
                 <div className="flex justify-between  py-5">
                     <div className=" flex items-center">
@@ -29,9 +30,11 @@ export default async function Navbar() {
                         </div>
                         <div >
                             {
-                                <Link className="hover:text-rose-500 " href="/auth/login">
-                                    Login
-                                </Link>
+                                session ?
+                                    <LogOut /> :
+                                    <Link className="hover:text-rose-500 " href="/auth/login">
+                                        Login
+                                    </Link>
                             }
                         </div>
                     </div>
@@ -39,8 +42,8 @@ export default async function Navbar() {
 
             </nav >
 
-            <div className="border-stone-900 border-b flex-1"></div>
+            <div className="border-stone-900 border-b flex-1 "></div>
 
-        </>
+        </div>
     )
 }
