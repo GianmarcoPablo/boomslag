@@ -2,7 +2,8 @@ import React from 'react'
 import { TriangleAlert, Heart, Share2, Box, Timer, UserRound, Medal, Building2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import TextareaMessage from '@/components/my/global/texttarea/TextTareaMessage'
-
+import { getOneJob } from '@/actions/get-one-job'
+import { formatDate } from '@/helpers/formatDate'
 interface Props {
     params: {
         slug: string
@@ -11,13 +12,21 @@ interface Props {
 
 
 
-export default function JobPage({ params }: Props) {
+export default async function JobPage({ params }: Props) {
+
+    const { slug } = params
+
+    const job = await getOneJob(slug)
+    console.log(job)
+
     return (
         <main className='mt-5'>
-            <div className='elemento p-6 shadow-xl rounded-xl'>
+            <div className='elemento p-6 shadow-xl rounded-lg'>
                 <div className='flex justify-between items-center'>
                     <div>
-                        <h1 className='text-rose-600 text-3xl font-black'>Desarrollador Backend Spring Boot</h1>
+                        <h1 className='text-rose-600 text-3xl font-black uppercase'>
+                            {job?.jobTitle}
+                        </h1>
                         <p className='text-xl underline hover:text-rose-600 cursor-pointer'>Microsoft</p>
                     </div>
                     <div className='flex gap-5'>
@@ -28,17 +37,21 @@ export default function JobPage({ params }: Props) {
                 </div>
             </div>
             <div className='grid grid-cols-4 mt-9 gap-8'>
-                <div className='elemento rounded-xl p-6 shadow-xl col-span-3 '>
+                <div className='elemento rounded-lg p-6 shadow-xl col-span-3 '>
                     <div className='flex items-center justify-between'>
                         <p className='text-rose-600 text-2xl font-bold mb-4'>Descripción</p>
                         <div className='flex gap-4'>
-                            <p className='text-lg font-boold'>Publicado hoy</p>
-                            <p className='text-lg font-boold'>Lima, Peru</p>
+                            <p className='text-lg font-boold'>
+                                {formatDate(job?.createdAt!)}
+                            </p>
+                            <p className='text-lg font-boold'>
+                                {job?.jobLocation} Lima
+                            </p>
                         </div>
                     </div>
                     <div>
                         <p>
-                            Se busca programador backend con experiencia en Spring Boot para trabajar en Microsoft en el desarrollo de aplicaciones web. del lado servidor. tambien se requiere experiencia en el manejo de bases de datos relacionales y no relacionales. Se busca programador backend con experiencia en Spring Boot para trabajar en Microsoft en el desarrollo de aplicaciones web. del lado servidor. tambien se requiere experiencia en el manejo de bases de datos relacionales y no relacionales. Se busca programador backend con experiencia en Spring Boot para trabajar en Microsoft en el desarrollo de aplicaciones web. del lado servidor. tambien se requiere experiencia en el manejo de bases de datos relacionales y no relacionales.
+                            {job?.jobDescription}
                         </p>
 
 
@@ -67,7 +80,7 @@ export default function JobPage({ params }: Props) {
                             <div>
                                 <div className='flex gap-2 mb-5'>
                                     <Building2 size={24} />
-                                    <p>Precencial</p>
+                                    <p>{job?.jobModality} </p>
                                 </div>
                                 <div className='flex gap-2 mb-5'>
                                     <Box size={24} />
@@ -75,7 +88,7 @@ export default function JobPage({ params }: Props) {
                                 </div>
                                 <div className='flex gap-2 mb-5'>
                                     <Timer size={24} />
-                                    <p>Full-time</p>
+                                    <p>{job?.jobWorkLoad} </p>
                                 </div>
                             </div>
                             <div>
@@ -91,7 +104,7 @@ export default function JobPage({ params }: Props) {
                         </div>
                     </div>
                 </div>
-                <div className='elemento rounded-xl shadow-xl col-span-1 p-6'>
+                <div className='elemento rounded-lg shadow-xl col-span-1 p-6'>
                     <p className='text-xl font-bold mb-5'>
                         Enviar un mensaje a la empresa
                     </p>
@@ -99,7 +112,7 @@ export default function JobPage({ params }: Props) {
                     <Button className='w-full font-bold text-xl mt-5'>
                         Postular
                     </Button>
-                    <p className='text-xs'>
+                    <p className='text-xs mt-4'>
                         Cuando postulas a un trabajo, la empresa recibe tu información personal y tu currículum. Puedes actualizar tu configuración de privacidad desde tu cuenta en cualquier momento.
                     </p>
                 </div>

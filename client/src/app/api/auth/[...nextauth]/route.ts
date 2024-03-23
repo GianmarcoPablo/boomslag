@@ -12,7 +12,7 @@ export const authOptions: NextAuthOptions = {
             },
             async authorize(credentials, req) {
                 try {
-                    const res = await fetch("http://localhost:4000/api/v1/users/login", {
+                    const res = await fetch("http://localhost:4001/api/v1/users/login", {
                         method: 'POST',
                         body: JSON.stringify(credentials),
                         headers: { 'Content-Type': 'application/json' }
@@ -38,7 +38,7 @@ export const authOptions: NextAuthOptions = {
         },
 
         async jwt({ token, user, account, profile }) {
-            const dbUser = await fetch("http://localhost:4000/api/v1/users/finduser", {
+            const dbUser = await fetch("http://localhost:4001/api/v1/users/finduser", {
                 method: 'POST',
                 body: JSON.stringify(token),
                 headers: { 'Content-Type': 'application/json' }

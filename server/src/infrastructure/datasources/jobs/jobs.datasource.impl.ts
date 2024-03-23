@@ -53,7 +53,16 @@ export class JobDatasourceImpl implements JobDatasource {
             const jobs = await prisma.job.findMany({
                 take: limitNumber,
                 skip: offset,
+                include: {
+                    Company: {
+                        select: {
+                            nameCompany: true
+                        }
+                    }
+                }
             })
+
+
             return jobs.map(job => JobEntity.fromObject(job))
         } catch (error) {
             if (error instanceof CustomError) {

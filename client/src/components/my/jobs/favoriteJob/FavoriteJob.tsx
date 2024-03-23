@@ -11,7 +11,7 @@ export default async function FavoriteJob() {
             {
                 session ? (
                     <div
-                        className="bg-rose-600 text-white py-2 px-3 rounded-md cursor-pointer hover:bg-zinc-800 transition-colors"
+                        className="bg-zinc-800 hover:bg-rose-600 transition-colors text-white py-2 px-3 rounded-md cursor-pointer "
                     >
                         <HeartHandshake />
                     </div>

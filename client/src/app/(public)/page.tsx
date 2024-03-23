@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
       <section className="mx-auto flex max-w-[980px] flex-col items-center gap-2 py-8 md:py-12 md:pb-8 lg:py-24">
-        <a href="/about" className="inline-flex items-center rounded-lg bg-rose-600 text-gray-100 bg-muted px-4 mb-1 py-1 text-base font-medium">
+        <a href="/about" className="inline-flex items-center rounded-lg bg-green-600 text-gray-100 bg-muted px-4 mb-1 py-1 text-base font-medium">
           <span className="sm:hidden">Descubre mas de nosotros</span>
           <span className="hidden sm:inline ">
             Descubre más sobre nosotros como empresa →
