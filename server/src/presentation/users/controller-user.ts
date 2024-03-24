@@ -17,11 +17,11 @@ export class UserController {
     }
 
     public login = async (req: Request, res: Response) => {
-        console.log(req.body)
         const [error, loginUserDto] = UserLoginDto.create(req.body!);
         if (error) return res.status(400).json({ error });
         try {
             const user = await new LoginUserUseCase(this.userRepository).execute(loginUserDto!)
+            console.log(user)
             res.status(200).json(user);
         } catch (error) {
             this.handleError(error, res);

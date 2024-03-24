@@ -45,4 +45,11 @@ export class JobRepositoryImpl implements JobRepository {
     deleteApplyJob(user: any, id: string): Promise<string> {
         throw new Error("Method not implemented.");
     }
+    getJobsByCompany(companyId: string): Promise<JobEntity[]> {
+        return this.jobDatasource.getJobsByCompany(companyId);
+    }
+
+    getJobsByUser(userId: string): Promise<JobEntity[]> {
+        return this.jobDatasource.getJobsByUser(userId);
+    }
 }

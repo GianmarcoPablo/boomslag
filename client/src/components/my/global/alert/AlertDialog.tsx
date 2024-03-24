@@ -18,10 +18,9 @@ export default function DialogAlert() {
         <AlertDialog>
             <AlertDialogTrigger asChild>
                 <Button
-                    className="bg-rose-600 text-white"
-                    variant="outline"
+                    variant="ghost"
                 >
-                    <HeartHandshake />
+                    <HeartHandshake/>
                 </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>

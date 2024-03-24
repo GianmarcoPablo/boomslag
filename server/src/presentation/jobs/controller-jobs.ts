@@ -12,6 +12,8 @@ import { addFavoriteJobJobUseCase } from "../../domain/use-cases/add-favorite-jo
 import { FavoriteJobDto } from "../../domain/dtos/jobs/favorite-job.dto";
 import { ApplyJobUseCase } from "../../domain/use-cases/apply-job.usecase";
 import { ApplyJobDto } from "../../domain/dtos/jobs/apply-job.dto";
+import { GetJobsByCompanyUseCase } from "../../domain/use-cases/get-jobs-by-companyusecase.";
+import { GetJobsByUserUseCase } from "../../domain/use-cases/get-jobs-by-user.usecase";
 export class JobController {
 
 
@@ -114,4 +116,34 @@ export class JobController {
         }
     }
 
+    public getJobsByCompany = async (req: Request, res: Response) => {
+        const { companyId } = req.params;
+
+        try {
+
+            const jobs = await new GetJobsByCompanyUseCase(this.jobRepository).execute(companyId);
+            res.status(200).json(jobs);
+        } catch (error) {
+            console.log(error)
+            this.handleError(error, res);
+        }
+    }
+
+    public getJobsByUser = async (req: Request, res: Response) => {
+        const { userId } = req.params;
+        const { user } = req.body;
+
+        try {
+
+            if (user.id !== userId) return res.status(401).json({
+                error: "You are not authorized to perform this action"
+            });
+
+            const jobs = await new GetJobsByUserUseCase(this.jobRepository).execute(userId);
+            res.status(200).json(jobs);
+        } catch (error) {
+            console.log(error)
+            this.handleError(error, res);
+        }
+    }
 }

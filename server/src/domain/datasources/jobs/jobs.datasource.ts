@@ -16,4 +16,6 @@ export abstract class JobDatasource {
     abstract removeFavoriteJob(id: FavoriteJobDto): Promise<string>;
     abstract applyJob(apply: ApplyJobDto): Promise<ApplyJobEntity>;
     abstract deleteApplyJob(user: any, id: string): Promise<string>;
+    abstract getJobsByCompany(companyId: string): Promise<JobEntity[]>;
+    abstract getJobsByUser(userId: string): Promise<JobEntity[]>;
 }

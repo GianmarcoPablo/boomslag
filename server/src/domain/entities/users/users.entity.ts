@@ -5,13 +5,13 @@ export class UserEntity {
         public readonly email: string,
         public readonly role: string,
         public readonly isActive: boolean,
-        public readonly csrfToken?: string,
+        public readonly token?: string,
         public readonly image?: string,
         public readonly isPremium?: boolean,
     ) { }
 
     public static fromObject(props: { [key: string]: any }): UserEntity {
-        const { id, name, email, role, isActive, csrfToken, image, isPremium } = props;
+        const { id, name, email, role, isActive, token, image, isPremium } = props;
 
         if (!id) throw new Error('id is required');
         if (!name) throw new Error('name is required');
@@ -22,6 +22,6 @@ export class UserEntity {
         if (isPremium && typeof isPremium !== 'boolean') throw new Error('isPremium must be a boolean');
 
 
-        return new UserEntity(id, name, email, role, isActive, csrfToken, image, isPremium);
+        return new UserEntity(id, name, email, role, isActive, token, image, isPremium);
     }
 }

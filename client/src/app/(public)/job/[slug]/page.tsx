@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import TextareaMessage from '@/components/my/global/texttarea/TextTareaMessage'
 import { getOneJob } from '@/actions/get-one-job'
 import { formatDate } from '@/helpers/formatDate'
+import FavoriteJob from '@/components/my/jobs/favoriteJob/FavoriteJob'
 interface Props {
     params: {
         slug: string
@@ -17,7 +18,6 @@ export default async function JobPage({ params }: Props) {
     const { slug } = params
 
     const job = await getOneJob(slug)
-    console.log(job)
 
     return (
         <main className='mt-5'>
@@ -29,10 +29,10 @@ export default async function JobPage({ params }: Props) {
                         </h1>
                         <p className='text-xl underline hover:text-rose-600 cursor-pointer'>Microsoft</p>
                     </div>
-                    <div className='flex gap-5'>
-                        <TriangleAlert className='cursor-pointer hover:text-rose-600' size={24} />
-                        <Share2 className='cursor-pointer hover:text-rose-600' size={24} />
-                        <Heart className='cursor-pointer hover:text-rose-600' size={24} />
+                    <div className='flex gap-5 items-center'>
+                        <TriangleAlert className='cursor-pointer' size={24} />
+                        <Share2 className='cursor-pointer' size={24} />
+                        <FavoriteJob />
                     </div>
                 </div>
             </div>

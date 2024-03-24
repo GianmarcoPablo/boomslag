@@ -118,28 +118,36 @@ export class JobDatasourceImpl implements JobDatasource {
             throw CustomError.internalServerError()
         }
     }
-    public async deleteJob(user: any, id: string): Promise<string> {
+    public async deleteJob(userId: string, jobId: string): Promise<string> {
         try {
+            // Verificar si el trabajo existe
+            const job = await prisma.job.findUnique({
+                where: { id: jobId },
+                select: { companyId: true },
+            });
 
-            const { id: idUser } = user
+            if (!job) {
+                throw CustomError.notFound('Job not found');
+            }
 
-            const jobToDelete = await prisma.job.findUnique({ where: { id } })
+            // Verificar si el usuario es el propietario del trabajo
+            const isUserOwner = await prisma.company.findFirst({
+                where: { id: job.companyId, userId },
+                select: { id: true },
+            });
 
-            if (!jobToDelete) throw CustomError.notFound('Job not found')
+            if (!isUserOwner) {
+                throw CustomError.forbidden('You are not allowed to delete a job for another company');
+            }
 
-            const company = await prisma.company.findUnique({ where: { id: jobToDelete.companyId } })
-
-            if (company?.userId !== idUser) throw CustomError.forbidden('You are not allowed to delete a job for another company')
-
-            await prisma.job.delete({ where: { id } })
-
-            return 'Job deleted'
-
+            // Eliminar el trabajo
+            await prisma.job.delete({ where: { id: jobId } });
+            return 'Job deleted';
         } catch (error) {
             if (error instanceof CustomError) {
-                throw error
+                throw error;
             }
-            throw CustomError.internalServerError()
+            throw CustomError.internalServerError();
         }
     }
     public async addFavoriteJob(favorite: FavoriteJobDto): Promise<FavoriteJobEntity> {
@@ -217,6 +225,35 @@ export class JobDatasourceImpl implements JobDatasource {
             if (error instanceof CustomError) {
                 throw error
             }
+            throw CustomError.internalServerError()
+        }
+    }
+
+    public async getJobsByCompany(companyId: string): Promise<JobEntity[]> {
+        try {
+            const company = await prisma.company.findUnique({ where: { id: companyId } })
+            if (!company) throw CustomError.notFound('Company not found')
+            const jobs = await prisma.job.findMany({ where: { companyId } })
+            return jobs.map(job => JobEntity.fromObject(job))
+        } catch (error) {
+            console.log(error)
+            throw CustomError.internalServerError()
+        }
+    }
+
+    public async getJobsByUser(userId: string): Promise<JobEntity[]> {
+        try {
+            const jobs = await prisma.job.findMany({
+                where: {
+                    Company: {
+                        userId
+                    }
+                }
+            })
+            console.log(jobs)
+            return jobs.map(job => JobEntity.fromObject(job))
+        } catch (error) {
+            console.log(error)
             throw CustomError.internalServerError()
         }
     }

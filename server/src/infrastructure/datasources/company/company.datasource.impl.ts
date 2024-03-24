@@ -109,12 +109,10 @@ export class CompanyDataSourceImpl implements CompanyDataSource {
     }
 
     async deleteCompany(user: any, id: string): Promise<string> {
-        console.log({ user, id })
         try {
             const { id: idUser } = user
 
             const company = await prisma.company.findFirst({ where: { id } })
-            console.log({ company })
             if (company?.userId !== idUser) {
                 throw CustomError.forbidden('You do not have permission to delete this company')
             }
@@ -139,7 +137,6 @@ export class CompanyDataSourceImpl implements CompanyDataSource {
     }
 
     async getAllCompaniesByUser(user: any): Promise<CompanyEntity[]> {
-        console.log({ user })
         try {
             const { id } = user
             const companies = await prisma.company.findMany({
