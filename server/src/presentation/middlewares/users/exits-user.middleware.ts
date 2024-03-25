@@ -6,10 +6,13 @@ import { JwtAdapter } from "../../../config/adapters/jwt.adapter";
 export class ExitsUserMiddleware {
     static async validateJWT(req: Request, res: Response, next: NextFunction) {
         const authorization = req.header('Authorization');
+        console.log("antes")
         if (!authorization) return res.status(401).json({ message: 'Unauthorized' });
+        console.log("despues")
         if (!authorization.startsWith('Bearer')) return res.status(401).json({ message: 'Unauthorized' });
 
         const token = authorization.split(' ')[1]; // Bearer token
+        console.log(token)
         try {
             const payload = await JwtAdapter.validateToken(token);
             if (!payload) return res.status(401).json({ message: 'Unauthorized' });

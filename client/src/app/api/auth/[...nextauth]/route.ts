@@ -1,5 +1,7 @@
 import CredentialsProvider from "next-auth/providers/credentials"
 import NextAuth, { NextAuthOptions } from "next-auth"
+import { setCookie } from 'cookies-next';
+import { cookies } from 'next/headers';
 
 export const authOptions: NextAuthOptions = {
     secret: process.env.SECRET,
@@ -17,11 +19,13 @@ export const authOptions: NextAuthOptions = {
                         body: JSON.stringify(credentials),
                         headers: { 'Content-Type': 'application/json' }
                     })
-
                     const user = await res.json()
                     if (user) {
+                        const data = setCookie("tokenUserBoomslag", user.token, { cookies })
+                        console.log(data)
                         return user
                     }
+
                 } catch (error) {
                     console.error("Error in signInEmailPassword", error)
                     return null
@@ -43,7 +47,6 @@ export const authOptions: NextAuthOptions = {
                 body: JSON.stringify(token),
                 headers: { 'Content-Type': 'application/json' }
             })
-
             const userDb = await dbUser.json()
             token.roles = userDb?.role ?? ["no-roles"];
             token.id = userDb?.id ?? "no-id"

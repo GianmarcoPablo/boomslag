@@ -43,7 +43,6 @@ export class UserController {
         try {
             const user = await prisma.user.findUnique({ where: { email: req.body.email } })
             if (!user) return res.status(404).json({ error: "User not found" });
-            console.log({ userProbita: user })
             res.status(200).json(user);
         } catch (error) {
             this.handleError(error, res);

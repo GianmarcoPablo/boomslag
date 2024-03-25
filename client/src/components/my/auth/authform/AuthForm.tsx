@@ -42,7 +42,7 @@ export default function ProfileForm() {
                 email: values.email,
                 password: values.password
             })
-            
+            console.log(response)
         } catch (error) {
             console.log(error)
             setMessage("Error al crear la cuenta")

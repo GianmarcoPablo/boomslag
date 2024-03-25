@@ -1,10 +1,13 @@
-import React from 'react'
 import { TriangleAlert, Heart, Share2, Box, Timer, UserRound, Medal, Building2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import TextareaMessage from '@/components/my/global/texttarea/TextTareaMessage'
+import { getSession } from '@/helpers/getSession'
 import { getOneJob } from '@/actions/get-one-job'
 import { formatDate } from '@/helpers/formatDate'
 import FavoriteJob from '@/components/my/jobs/favoriteJob/FavoriteJob'
+import { cookies } from "next/headers"
+import { getFavoriteJobs } from '@/actions/get-favorite-jobs'
+
 interface Props {
     params: {
         slug: string
@@ -16,8 +19,14 @@ interface Props {
 export default async function JobPage({ params }: Props) {
 
     const { slug } = params
-
+    const session = await getSession()
+    const cookieStore = cookies()
+    const cookieToken = cookieStore.get('tokenUserBoomslag')?.value ?? 'no-token'
     const job = await getOneJob(slug)
+
+    const favoriteJobs = await getFavoriteJobs(session?.id, cookieToken)
+
+    const isFavorite = favoriteJobs?.some((j: any) => j.jobId === job?.id)
 
     return (
         <main className='mt-5'>
@@ -32,7 +41,20 @@ export default async function JobPage({ params }: Props) {
                     <div className='flex gap-5 items-center'>
                         <TriangleAlert className='cursor-pointer' size={24} />
                         <Share2 className='cursor-pointer' size={24} />
-                        <FavoriteJob />
+
+                        {
+                            isFavorite ? (
+                                <div>
+                                    <h1>Ya es favorito</h1>
+                                </div>
+                            ) : (
+                                <FavoriteJob
+                                    jobId={job?.id!}
+                                    cookieToken={cookieToken}
+                                />
+                            )
+                        }
+
                     </div>
                 </div>
             </div>

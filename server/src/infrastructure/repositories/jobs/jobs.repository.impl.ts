@@ -30,11 +30,11 @@ export class JobRepositoryImpl implements JobRepository {
     deleteJob(user: any, id: string): Promise<string> {
         return this.jobDatasource.deleteJob(user, id);
     }
-    addFavoriteJob(favorite: FavoriteJobDto): Promise<FavoriteJobEntity> {
+    addFavoriteJob(favorite: FavoriteJobDto): Promise<string> {
         return this.jobDatasource.addFavoriteJob(favorite);
     }
-    getFavoriteJobs(userId: string): Promise<JobEntity[]> {
-        throw new Error("Method not implemented.");
+    getFavoriteJobs(userId: string): Promise<FavoriteJobEntity[]> {
+        return this.jobDatasource.getFavoriteJobs(userId);
     }
     removeFavoriteJob(id: FavoriteJobDto): Promise<string> {
         throw new Error("Method not implemented.");

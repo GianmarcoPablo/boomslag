@@ -24,6 +24,7 @@ export class JobsRoutes {
         router.post("/action/apply", [ExitsUserMiddleware.validateJWT], jobController.applyJob);
 
         router.post("/action/favorite", [ExitsUserMiddleware.validateJWT], jobController.favoriteJob);
+        router.get("/action/favorite/:userId", [ExitsUserMiddleware.validateJWT], jobController.getFavoriteJobs);
         router.get("/by/user/:userId", [ExitsUserMiddleware.validateJWT], jobController.getJobsByUser);
         return router;
     }

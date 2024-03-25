@@ -150,7 +150,7 @@ export class JobDatasourceImpl implements JobDatasource {
             throw CustomError.internalServerError();
         }
     }
-    public async addFavoriteJob(favorite: FavoriteJobDto): Promise<FavoriteJobEntity> {
+    public async addFavoriteJob(favorite: FavoriteJobDto): Promise<string> {
         try {
             const { userId, jobId } = favorite
             const user = await prisma.user.findUnique({ where: { id: userId } })
@@ -165,7 +165,7 @@ export class JobDatasourceImpl implements JobDatasource {
                 }
             })
 
-            return FavoriteJobEntity.fromObject(favoriteJob)
+            return 'Se ha añadido a favoritos'
         } catch (error) {
             if (error instanceof CustomError) {
                 throw error
@@ -173,8 +173,16 @@ export class JobDatasourceImpl implements JobDatasource {
             throw CustomError.internalServerError()
         }
     }
-    public async getFavoriteJobs(userId: string): Promise<JobEntity[]> {
-        throw new Error("Method not implemented.");
+    public async getFavoriteJobs(userId: string): Promise<FavoriteJobDto[]> {
+        try {
+            const favoriteJobs = await prisma.favoriteJob.findMany({ where: { userId } })
+            return favoriteJobs.map(favoriteJob => FavoriteJobEntity.fromObject(favoriteJob))
+        } catch (error) {
+            if (error instanceof CustomError) {
+                throw error
+            }
+            throw CustomError.internalServerError()
+        }
     }
     public async removeFavoriteJob(favorite: FavoriteJobDto): Promise<string> {
         const { id } = favorite
